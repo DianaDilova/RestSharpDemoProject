@@ -12,5 +12,7 @@
 
         public List<Label> labels { get; set; }
 
+        public string state { get; set; }
+
     }
 }

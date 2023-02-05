@@ -11,7 +11,7 @@ namespace GitHubApiTests
         private const string baseurl = "https://api.github.com";
         private const string partialUrl = "repos/dianadilova/postman/issues";
         private const string username = "dianadilova";
-        private const string password = "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";
+        private const string password = "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";
 
         [SetUp]
 
@@ -205,6 +205,21 @@ namespace GitHubApiTests
             var response = this.client.Execute(request);
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.UnprocessableEntity));
+        }
+
+        [Test]
+        public void Test_Close_Issue()
+        {
+            var request = new RestRequest($"{partialUrl}/11", Method.Patch);
+            request.AddJsonBody(new { state = "closed" });
+
+            var response = this.client.Execute(request);
+
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+
+            var issue = JsonSerializer.Deserialize<Issue>(response.Content);
+
+            Assert.That(issue.state, Is.EqualTo("closed"));
         }
     }
 }
